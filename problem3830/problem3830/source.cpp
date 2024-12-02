@@ -1,23 +1,25 @@
 #include <iostream>
 #include <cstring>
+
 #define NUM 100010
 
 using namespace std;
 typedef long long ll;
 int n, m;
-ll par[NUM], psum[NUM];
+int par[NUM];
+ll psum[NUM];
 
 int find(int start) {
-    if (start == par[start]) 
+    if (start == par[start])
         return start;
 
     int root = find(par[start]);
     psum[start] += psum[par[start]];
-    
+
     return par[start] = root;
 }
 
-void sum_uni(int x, int y, int d) {
+void sum_uni(int x, int y, ll d) {
     int xx = find(x), yy = find(y);
     if (xx == yy) return;
     psum[yy] = psum[x] - psum[y] + d;
@@ -34,7 +36,7 @@ bool print_uni(int x, int y) {
 void reset() {
     memset(psum, 0, sizeof(psum));
 
-    for (int i = 0; i <= 100000; i++) {
+    for (int i = 1; i < NUM; i++) {
         par[i] = i;
     }
 }
@@ -42,26 +44,29 @@ void reset() {
 void init() {
     while (true) {
         reset();
-        scanf("%d %d", &n, &m);
-
+        cin >> n >> m;
+        
         if (n == 0 && m == 0) break;
         for (int i = 0; i < m; i++) {
-            char c;
+            char c;            
             cin >> c;
+
             if (c == '!') {
                 int s, e, d;
-                scanf("%d %d %d", &s, &e, &d);
+
+                cin >> s >> e >> d;
+                
                 sum_uni(s, e, d);
             }
             else {
                 int s, e;
-                scanf("%d %d", &s, &e);
+                cin >> s >> e;                
                 if (print_uni(s, e)) {
-                    printf("%lld\n", psum[e] - psum[s]);
+                    cout << psum[e] - psum[s] << "\n";
                 }
                 else
                 {
-                    printf("UNKNOWN\n");
+                    cout << "UNKNOWN\n";
                 }
             }
         }
@@ -70,6 +75,9 @@ void init() {
 
 
 int main() {
+    ios_base::sync_with_stdio(0); //!!! 반드시 해야함
+    cin.tie(0); cout.tie(0); ///!!! 반드시 해야함
+
     init();
     return 0;
 }
