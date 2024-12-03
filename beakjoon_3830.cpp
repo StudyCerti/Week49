@@ -12,6 +12,11 @@ std::string question(int a, int b);
 
 int main()
 {
+	// C++ 과 C iostream 동기화 여부, 동기화 하지 않을 경우 C++ 함수만 사용가능. sync맞추는 시간 빠짐
+	std::ios_base::sync_with_stdio(false);
+	std::cin.tie(0);
+    	std::cout.tie(0);
+	
 	std::string result ="";
 	while (true)
 	{
